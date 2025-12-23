@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лінійна тактика XVIII-XIX ст. | Історія розвитку</title>
+    <style>
+        /* ТОТАЛЬНО ІДЕНТИЧНІ СТИЛІ ЯК В INDEX.HTML */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            color: white;
+            padding: 1.5rem 0;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            padding: 1rem;
+            font-size: 2.2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        nav {
+            background-color: #34495e;
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        nav li {
+            margin: 0 10px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        nav a:hover {
+            background-color: #1a252f;
+            transform: translateY(-2px);
+        }
+        
+        .current-page {
+            background-color: #16a085;
+            border-color: #0d7864;
+        }
+        
+        main {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+        
+        section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.7rem;
+            border-bottom: 3px solid #3498db;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.4rem;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5rem auto;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            border: 1px solid #ddd;
+        }
+        
+        ul, ol {
+            padding-left: 2.5rem;
+            margin: 1.2rem 0;
+        }
+        
+        li {
+            margin-bottom: 0.7rem;
+            line-height: 1.7;
+        }
+        
+        p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+            font-size: 1.05rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            color: #7f8c8d;
+            font-style: italic;
+            border-top: 2px solid #bdc3c7;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+        }
+        
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+            padding: 0 10px;
+        }
+        
+        .highlight {
+            background-color: #fff9e6;
+            padding: 1.5rem;
+            border-left: 4px solid #f1c40f;
+            margin: 1.5rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 2rem 0;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #3498db;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #e74c3c;
+            border: 3px solid #3498db;
+        }
+        
+        .timeline-year {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+            
+            nav li {
+                margin: 5px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                display: block;
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                padding: 0.5rem;
+            }
+            
+            main {
+                padding: 1.5rem;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Історія розвитку лінійної тактики</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Головна</a></li>
+                <li><a href="history.html" class="current-page">Історія розвитку</a></li>
+                <li><a href="battles.html">Битви та приклади</a></li>
+                <li><a href="weapons.html">Озброєння</a></li>
+                <li><a href="decline.html">Занепад тактики</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="intro">
+            <h2>Еволюція лінійної тактики</h2>
+            <p>Лінійна тактика не з'явилася одразу у своєму класичному вигляді. Вона пройшла довгий шлях розвитку протягом декількох століть, адаптуючись до змін у озброєнні, соціальних структурах та воєнному мистецтві.</p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tercio.png/800px-Tercio.png" alt="Еволюція військових формацій">
+            <div class="image-caption">Еволюція від іспанських терцій до лінійного строю: терція (ліворуч) vs лінійний стрій (праворуч)</div>
+        </section>
+
+        <section id="early-development">
+            <h2>Ранній етап (XVII століття)</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">1590-1620</div>
+                    <h3>Нідерландські реформи Моріца Оранського</h3>
+                    <p>Перші кроки до лінійної тактики були зроблені в Нідерландах під час Вісімдесятирічної війни:</p>
+                    <ul>
+                        <li>Зменшення глибини піхотних формувань з 10-12 до 5-6 шеренг</li>
+                        <li>Введення контрамаршу для підтримки безперервного вогню</li>
+                        <li>Стандартизація озброєння та підготовки</li>
+                        <li>Розподіл на менші, більш керовані підрозділи</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">1630-1648</div>
+                    <h3>Шведські інновації Густава II Адольфа</h3>
+                    <p>Шведський король радикально вдосконалив тактику під час Тридцятирічної війни:</p>
+                    <ul>
+                        <li>Подальше зменшення глибини до 3-4 шеренг</li>
+                        <li>Інтеграція легкої польової артилерії з піхотою</li>
+                        <li>Введення тактики "удар-вогонь" (спочатку штикова атака, потім залп)</li>
+                        <li>Покращення мобільності та логістики</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="classical-era">
+            <h2>Класична епоха (XVIII століття)</h2>
+            
+            <div class="highlight">
+                <h3>Французька систематизація</h3>
+                <p>Під час правління Людовика XIV та Людовика XV французька армія формалізувала лінійну тактику:</p>
+                <ul>
+                    <li>Створення детальних статутів та настанов</li>
+                    <li>Введення кремневих мушкетів з багнетом (замість списів)</li>
+                    <li>Розвиток професійних офіцерських кадрів</li>
+                    <li>Стандартизація муштри та вогневих процедур</li>
+                </ul>
+            </div>
+            
+            <div class="highlight">
+                <h3>Прусська досконалість Фрідріха Великого</h3>
+                <p>Прусська армія довела лінійну тактику до механічної досконалості:</p>
+                <ul>
+                    <li>Неймовірна швидкість перезаряджання (5 пострілів за хвилину)</li>
+                    <li>Косий стрій для охоплення флангів противника</li>
+                    <li>Жорстка дисципліна та покарання за порушення строю</li>
+                    <li>Інтенсивна підготовка солдатів (до 8 годин на день)</li>
+                </ul>
+            </div>
+            
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Friedrich_II._%28Preu%C3%9Fen%29.jpg/800px-Friedrich_II._%28Preu%C3%9Fen%29.jpg" alt="Фрідріх Великий">
+            <div class="image-caption">Фрідріх II Великий, король Пруссії, чия армія вважалася зразком лінійної тактики в середині XVIII століття</div>
+        </section>
+
+        <section id="napoleonic-era">
+            <h2>Наполеонівський період (кінець XVIII - початок XIX ст.)</h2>
+            <p>Наполеон Бонапарт та його супротивники довели лінійну тактику до апогею, адаптувавши її до масштабів масових армій:</p>
+            
+            <h3>Основні інновації:</h3>
+            <ul>
+                <li><strong>Гібридні формування:</strong> Комбінація лінійних та колонних порядків залежно від ситуації</li>
+                <li><strong>Масове застосування артилерії:</strong> Концентрація гармат на ключових ділянках</li>
+                <li><strong>Тактика "великих баталій":</strong> Одночасне використання десятків тисяч солдатів</li>
+                <li><strong>Покращення логістики:</strong> Можливість швидкого переміщення великих армій</li>
+                <li><strong>Розвиток легкої піхоти:</strong> Вогнева підтримка та розвідка поза основним строєм</li>
+            </ul>
+            
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Battle_of_Austerlitz.jpg/800px-Battle_of_Austerlitz.jpg" alt="Битва під Аустерліцем">
+            <div class="image-caption">Битва під Аустерліцем (1805) - вершина розвитку лінійної тактики в епоху Наполеонівських воєн</div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Історичний довідник про лінійну військову тактику XVIII-XIX століть &copy; 2023</p>
+        <p>Матеріали розділу "Історія розвитку" засновані на дослідженнях еволюції європейського воєнного мистецтва.</p>
+    </footer>
+</body>
+</html>
