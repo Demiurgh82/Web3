@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лінійна тактика | Інтерактивна сторінка з JavaScript</title>
+    <style>
+        /* ОСНОВНІ СТИЛІ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            color: white;
+            padding: 1.5rem 0;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            padding: 1rem;
+            font-size: 2.2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        nav {
+            background-color: #34495e;
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        nav li {
+            margin: 0 10px;
+        }
+        
+        nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.current-page {
+    background-color: #16a085;
+    border-color: #0d7864;
+    color: white !important; /* Додаємо цей рядок */
+}
+        
+        nav a:hover {
+            background-color: #1a252f;
+            transform: translateY(-2px);
+        }
+        
+        .current-page {
+            background-color: #16a085;
+            border-color: #0d7864;
+        }
+        
+        main {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+        
+        section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.7rem;
+            border-bottom: 3px solid #3498db;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin: 1.5rem 0 0.8rem 0;
+            font-size: 1.4rem;
+        }
+        
+        /* СТИЛІ ДЛЯ ШКАЛИ ЧАСУ */
+        .timeline-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #3498db;
+            transform: translateX(-50%);
+        }
+        
+        .timeline-event {
+            position: relative;
+            margin: 40px 0;
+            width: 50%;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-event:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        
+        .timeline-event.left {
+            left: 0;
+        }
+        
+        .timeline-event.right {
+            left: 50%;
+        }
+        
+        .timeline-event::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: #e74c3c;
+            border-radius: 50%;
+            border: 4px solid #3498db;
+        }
+        
+        .timeline-event.left::after {
+            right: -12px;
+        }
+        
+        .timeline-event.right::after {
+            left: -12px;
+        }
+        
+        .event-year {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .event-details {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .event-details.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* СТИЛІ ДЛЯ КНОПОК */
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        /* СТИЛІ ДЛЯ ВІКТОРИНИ */
+        /* СТИЛІ ДЛЯ ВІКТОРИНИ */
+#quiz-container {
+    margin: 20px 0;
+}
+
+#question {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #2c3e50; /* Темно-синій для питання */
+    font-weight: bold;
+}
+
+#options {
+    margin: 15px 0;
+}
+
+.quiz-option {
+    display: block;
+    margin: 10px 0;
+    padding: 12px 15px;
+    width: 100%;
+    text-align: left;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+    color: #333333; /* Темно-сірий текст */
+}
+
+.quiz-option:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.quiz-option:active {
+    transform: translateY(0);
+}
+
+.quiz-option.correct {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724; /* Темно-зелений */
+    font-weight: bold;
+}
+
+.quiz-option.incorrect {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24; /* Темно-червоний */
+}
+
+.quiz-option:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+#result {
+    margin: 15px 0;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    min-height: 24px;
+    color: #333333; /* Забезпечуємо видимість */
+}
+
+#score {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2c3e50; /* Темно-синій */
+}
+
+/* Кнопка "Наступне питання" */
+#next-question {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 15px;
+    transition: background 0.3s;
+}
+
+#next-question:hover {
+    background-color: #2980b9;
+}
+        
+        /* СТИЛІ ДЛЯ СИМУЛЯЦІЇ */
+        .slider-container {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .slider-container input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+        }
+        
+        .simulation-result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+        
+        #formation-canvas {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            background: #f8f9fa;
+            display: block;
+        }
+        
+        .highlight {
+            background-color: #fff9e6;
+            padding: 1.5rem;
+            border-left: 4px solid #f1c40f;
+            margin: 1.5rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        /* АДАПТИВНІСТЬ */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+            
+            nav li {
+                margin: 5px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                display: block;
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                padding: 0.5rem;
+            }
+            
+            main {
+                padding: 1.5rem;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-event {
+                width: calc(100% - 40px);
+                left: 40px !important;
+            }
+            
+            .timeline-event::after {
+                left: -32px !important;
+                right: auto !important;
+            }
+            
+            .controls button {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            color: #7f8c8d;
+            font-style: italic;
+            border-top: 2px solid #bdc3c7;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Інтерактивна сторінка з JavaScript</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Головна</a></li>
+                <li><a href="history.html">Історія</a></li>
+                <li><a href="battles.html">Битви</a></li>
+                <li><a href="weapons.html">Озброєння</a></li>
+                <li><a href="decline.html">Занепад</a></li>
+                <li><a href="interactive.html" class="current-page">Інтерактивна</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="timeline-section">
+            <h2>Хронологічна шкала розвитку лінійної тактики</h2>
+            <p>Натисніть на подію, щоб побачити деталі. Використовуйте кнопки для управління.</p>
+            
+            <div class="controls">
+                <button id="expandAll">Розгорнути всі події</button>
+                <button id="collapseAll">Згорнути всі події</button>
+                <button id="highlightImportant">Виділити важливі</button>
+                <button id="sortChronological">Сортувати за роком</button>
+            </div>
+            
+            <div class="timeline-container">
+                <div class="timeline" id="timeline">
+                    <!-- Події будуть додані через JavaScript -->
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz-section">
+            <h2>Перевірте свої знання</h2>
+            <div class="highlight">
+                <h3>Вікторина з лінійної тактики</h3>
+                <div id="quiz-container">
+                    <p id="question">Завантаження питання...</p>
+                    <div id="options">
+                        <!-- Варіанти відповідей будуть додані через JS -->
+                    </div>
+                    <button id="next-question">Наступне питання</button>
+                    <div id="result" style="margin-top: 15px; font-weight: bold; min-height: 24px;"></div>
+                </div>
+                <div id="score" style="margin-top: 20px; text-align: center; font-size: 1.2rem;">Рахунок: 0/5</div>
+            </div>
+        </section>
+        
+        <section id="simulation-section">
+            <h2>Симуляція лінійного строю</h2>
+            <div class="highlight">
+                <div class="slider-container">
+                    <label for="soldier-slider">Кількість солдатів у лінії: <span id="soldier-count">100</span></label>
+                    <input type="range" id="soldier-slider" min="10" max="200" value="100">
+                </div>
+                
+                <div class="slider-container">
+                    <label for="distance-slider">Дистанція до ворога: <span id="distance">50</span> метрів</label>
+                    <input type="range" id="distance-slider" min="10" max="200" value="50">
+                </div>
+                
+                <button id="calculate-effectiveness">Розрахувати ефективність</button>
+                
+                <div id="simulation-result" class="simulation-result">
+                    <!-- Результати симуляції будуть тут -->
+                </div>
+                
+                <canvas id="formation-canvas" width="800" height="200">
+                    Ваш браузер не підтримує canvas. Оновіть браузер для перегляду симуляції.
+                </canvas>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Інтерактивна сторінка для лабораторної роботи з JavaScript &copy; 2023</p>
+        <p>Використані технології: HTML5, CSS3, JavaScript, Canvas API</p>
+    </footer>
+
+    <script>
+        // =================== ПРОСТЕ ПОВІДОМЛЕННЯ ПРИ ЗАВАНТАЖЕННІ ===================
+        console.log("=== СТОРІНКА ЗАВАНТАЖУЄТЬСЯ ===");
+        
+        // =================== 1. ДАНІ ДЛЯ ШКАЛИ ЧАСУ ===================
+        const timelineEvents = [
+            {
+                year: "1642",
+                title: "Битва при Брейтенфельді",
+                description: "Густав II Адольф впроваджує рухливіші піхотні формування та легку артилерію",
+                side: "left",
+                important: true,
+                details: "Перше масове застосування лінійної тактики в сучасному розумінні. Шведська армія показала перевагу рухливості над чисельністю."
+            },
+            {
+                year: "1704",
+                title: "Битва при Бленхеймі",
+                description: "Мальборо використовує комбінацію лінійної піхоти та маневреної кавалерії",
+                side: "right",
+                important: true,
+                details: "Класичний приклад координованих дій піхоти, кавалерії та артилерії. Англо-австрійські війська завдали поразки французам."
+            },
+            {
+                year: "1745",
+                title: "Битва при Фонтенуа",
+                description: "Апогей класичної лінійної тактики",
+                side: "left",
+                important: true,
+                details: "Знаменита фраза французького офіцера: 'Стріляйте першими, панове англійці!'. Ідеальне вишикування ліній на відкритій місцевості."
+            },
+            {
+                year: "1757",
+                title: "Битва при Лейтені",
+                description: "Фрідріх Великий застосовує косий стрій",
+                side: "right",
+                important: true,
+                details: "Мастер-клас косого строю та маневреності. Пруссія перемогла австрійців, незважаючи на чисельну перевагу останніх."
+            },
+            {
+                year: "1805",
+                title: "Битва при Аустерліці",
+                description: "Наполеон доводить лінійну тактику до досконалості",
+                side: "left",
+                important: true,
+                details: "Геніальне заманювання противника та флангова атака. Наполеон розгромив російсько-австрійську армію."
+            },
+            {
+                year: "1854",
+                title: "Балаклавська битва",
+                description: "Знаменита 'Тонка червона лінія'",
+                side: "right",
+                important: true,
+                details: "93-й шотландський полк у двошеренговому строю зупинив атаку російської кавалерії. Один з останніх успішних застосувань лінійного строю."
+            }
+        ];
+        
+        // =================== 2. ДАНІ ДЛЯ ВІКТОРИНИ ===================
+        const quizQuestions = [
+            {
+                question: "Який король вдосконалив лінійну тактику під час Тридцятирічної війни?",
+                options: [
+                    "Людовик XIV",
+                    "Густав II Адольф", 
+                    "Фрідріх Великий",
+                    "Наполеон Бонапарт"
+                ],
+                correct: 1,
+                explanation: "Густав II Адольф, король Швеції, радикально реформував армію, впровадивши рухливіші формування та легку артилерію."
+            },
+            {
+                question: "Яка швидкострільність була у кремневого мушкета?",
+                options: [
+                    "10-12 пострілів за хвилину",
+                    "5-7 пострілів за хвилину", 
+                    "2-3 пострілів за хвилину",
+                    "1 постріл за хвилину"
+                ],
+                correct: 2,
+                explanation: "Навіть добре підготовлений солдат міг зробити лише 2-3 постріли за хвилину через складний процес перезаряджання."
+            },
+            {
+                question: "Що таке 'косий стрій'?",
+                options: [
+                    "Стрій для атаки з флангу",
+                    "Похилий стрій для кращого огляду",
+                    "Один фланг винесений вперед, інший відтягнутий",
+                    "Стрій для оборони на пагорбі"
+                ],
+                correct: 2,
+                explanation: "Косий стрій (Schiefe Schlachtordnung) був винаходом Фрідріха Великого, що дозволяв концентрувати сили на одному фланзі."
+            },
+            {
+                question: "У якій битві була 'Тонка червона лінія'?",
+                options: [
+                    "Битва при Ватерлоо",
+                    "Балаклавська битва", 
+                    "Битва при Аустерліці",
+                    "Битва при Геттісберзі"
+                ],
+                correct: 1,
+                explanation: "Під час Балаклавської битви (1854) 93-й шотландський полк у двошеренговому строю зупинив атаку російської кавалерії."
+            },
+            {
+                question: "Чому лінійна тактика занепала?",
+                options: [
+                    "Через появу кулеметів",
+                    "Через нарізну зброю", 
+                    "Через швидкісну артилерію",
+                    "Все вище перераховане"
+                ],
+                correct: 3,
+                explanation: "Поява нарізних гвинтівок, швидкісної артилерії та кулеметів зробила щільні строї самогубними."
+            }
+        ];
+        
+        // =================== 3. ГЛОБАЛЬНІ ЗМІННІ ===================
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let timelineInitialized = false;
+        
+        // =================== 4. ОСНОВНА ФУНКЦІЯ ІНІЦІАЛІЗАЦІЇ ===================
+        function initializePage() {
+            console.log("🚀 Ініціалізація сторінки...");
+            
+            try {
+                // Ініціалізація шкали часу
+                initializeTimeline();
+                
+                // Ініціалізація вікторини
+                initializeQuiz();
+                
+                // Ініціалізація симуляції
+                initializeSimulation();
+                
+                // Додавання обробників подій
+                setupEventListeners();
+                
+                // Показати повідомлення про успішне завантаження
+                showNotification("Сторінка успішно завантажена! Використовуйте кнопки для інтерактиву.", "success");
+                
+                console.log("✅ Сторінка повністю ініціалізована");
+            } catch (error) {
+                console.error("❌ Помилка при ініціалізації:", error);
+                showNotification("Сталася помилка при завантаженні сторінки. Перевірте консоль.", "error");
+            }
+        }
+        
+        // =================== 5. ФУНКЦІЇ ДЛЯ ШКАЛИ ЧАСУ ===================
+        function initializeTimeline() {
+            console.log("📅 Ініціалізація шкали часу...");
+            renderTimeline();
+            timelineInitialized = true;
+        }
+        
+        function renderTimeline() {
+            const timelineElement = document.getElementById('timeline');
+            if (!timelineElement) {
+                console.error("Елемент 'timeline' не знайдено!");
+                return;
+            }
+            
+            timelineElement.innerHTML = '';
+            
+            timelineEvents.forEach((event, index) => {
+                const eventElement = document.createElement('div');
+                eventElement.className = `timeline-event ${event.side}`;
+                eventElement.innerHTML = `
+                    <div class="event-year">${event.year}</div>
+                    <h3>${event.title}</h3>
+                    <p>${event.description}</p>
+                    <div class="event-details">
+                        <p><strong>Деталі:</strong> ${event.details}</p>
+                        <p><strong>Значення:</strong> ${event.important ? 'Важлива подія в розвитку тактики' : 'Перехідна подія'}</p>
+                    </div>
+                `;
+                
+                // Додавання обробника кліку
+                eventElement.addEventListener('click', function(event) {
+                    if (event.target.tagName === 'BUTTON') return;
+                    
+                    const details = this.querySelector('.event-details');
+                    if (details) {
+                        const isActive = details.classList.contains('active');
+                        details.classList.toggle('active');
+                        
+                        // Анімація
+                        if (!isActive) {
+                            details.style.animation = 'fadeIn 0.5s ease';
+                        }
+                        
+                        console.log(`Подія ${event.year} ${isActive ? 'згорнута' : 'розгорнута'}`);
+                    }
+                });
+                
+                timelineElement.appendChild(eventElement);
+            });
+            
+            console.log(`✅ Додано ${timelineEvents.length} подій до шкали часу`);
+        }
+        
+        function expandAllEvents() {
+            document.querySelectorAll('.event-details').forEach(details => {
+                details.classList.add('active');
+            });
+            showNotification("Всі події розгорнуті", "info");
+            console.log("Всі події розгорнуті");
+        }
+        
+        function collapseAllEvents() {
+            document.querySelectorAll('.event-details').forEach(details => {
+                details.classList.remove('active');
+            });
+            showNotification("Всі події згорнуті", "info");
+            console.log("Всі події згорнуті");
+        }
+        
+        function highlightImportantEvents() {
+            const events = document.querySelectorAll('.timeline-event');
+            let highlightedCount = 0;
+            
+            events.forEach(event => {
+                const year = event.querySelector('.event-year').textContent;
+                const timelineEvent = timelineEvents.find(e => e.year === year);
+                
+                if (timelineEvent && timelineEvent.important) {
+                    event.style.backgroundColor = '#fff9e6';
+                    event.style.boxShadow = '0 0 0 3px #f1c40f';
+                    event.style.transform = 'scale(1.02)';
+                    highlightedCount++;
+                } else {
+                    event.style.backgroundColor = '';
+                    event.style.boxShadow = '';
+                    event.style.transform = '';
+                }
+            });
+            
+            showNotification(`Виділено ${highlightedCount} важливих подій`, "info");
+            console.log(`Виділено ${highlightedCount} важливих подій`);
+        }
+        
+        function sortEventsChronological() {
+            timelineEvents.sort((a, b) => parseInt(a.year) - parseInt(b.year));
+            renderTimeline();
+            showNotification("Події відсортовані за хронологією", "success");
+            console.log("Події відсортовані за хронологією");
+        }
+        
+        // =================== 6. ФУНКЦІЇ ДЛЯ ВІКТОРИНИ ===================
+        function initializeQuiz() {
+            console.log("❓ Ініціалізація вікторини...");
+            loadQuestion();
+        }
+        
+        function loadQuestion() {
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+            const scoreElement = document.getElementById('score');
+            
+            if (!questionElement || !optionsElement) {
+                console.error("Елементи вікторини не знайдені!");
+                return;
+            }
+            
+            if (currentQuestionIndex >= quizQuestions.length) {
+                currentQuestionIndex = 0; // Почати спочатку
+            }
+            
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            
+            // Оновлення питання
+            questionElement.textContent = `Питання ${currentQuestionIndex + 1}: ${currentQuestion.question}`;
+            
+            // Очищення попередніх варіантів
+            optionsElement.innerHTML = '';
+            
+            // Додавання нових варіантів
+            currentQuestion.options.forEach((option, index) => {
+                const optionButton = document.createElement('button');
+                optionButton.className = 'quiz-option';
+                optionButton.textContent = option;
+                optionButton.dataset.index = index;
+                
+                optionButton.addEventListener('click', function() {
+                    checkAnswer(index, currentQuestion.correct);
+                });
+                
+                optionsElement.appendChild(optionButton);
+            });
+            
+            // Очищення попереднього результату
+            const resultElement = document.getElementById('result');
+            if (resultElement) {
+                resultElement.textContent = '';
+                resultElement.style.color = '';
+            }
+            
+            // Оновлення рахунку
+            if (scoreElement) {
+                scoreElement.textContent = `Рахунок: ${quizScore}/${quizQuestions.length}`;
+            }
+            
+            console.log(`Завантажено питання ${currentQuestionIndex + 1}`);
+        }
+        
+        function checkAnswer(selectedIndex, correctIndex) {
+            const options = document.querySelectorAll('.quiz-option');
+            const resultElement = document.getElementById('result');
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            
+            // Відключення всіх кнопок після вибору
+            options.forEach(button => {
+                button.disabled = true;
+                button.style.cursor = 'not-allowed';
+            });
+            
+            // Відмітка правильних/неправильних відповідей
+            options.forEach((button, index) => {
+                if (index === correctIndex) {
+                    button.classList.add('correct');
+                } else if (index === selectedIndex && index !== correctIndex) {
+                    button.classList.add('incorrect');
+                }
+            });
+            
+            // Перевірка відповіді
+            if (selectedIndex === correctIndex) {
+                quizScore++;
+                if (resultElement) {
+                    resultElement.textContent = '✅ Правильно! ' + currentQuestion.explanation;
+                    resultElement.style.color = '#27ae60';
+                }
+                showNotification("Правильна відповідь! +1 бал", "success");
+            } else {
+                if (resultElement) {
+                    resultElement.textContent = `❌ Неправильно. ${currentQuestion.explanation}`;
+                    resultElement.style.color = '#e74c3c';
+                }
+                showNotification("Неправильна відповідь. Спробуйте наступне питання", "error");
+            }
+            
+            // Оновлення рахунку
+            const scoreElement = document.getElementById('score');
+            if (scoreElement) {
+                scoreElement.textContent = `Рахунок: ${quizScore}/${quizQuestions.length}`;
+            }
+            
+            console.log(`Відповідь: ${selectedIndex}, Правильно: ${selectedIndex === correctIndex}, Рахунок: ${quizScore}`);
+        }
+        
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            // Якщо це останнє питання
+            if (currentQuestionIndex >= quizQuestions.length) {
+                const percentage = Math.round((quizScore / quizQuestions.length) * 100);
+                let message;
+                
+                if (percentage >= 80) {
+                    message = `Відмінно! Ви знавець лінійної тактики! Результат: ${quizScore}/${quizQuestions.length} (${percentage}%)`;
+                    showNotification(message, "success");
+                } else if (percentage >= 60) {
+                    message = `Добре! Ви добре знаєте тему. Результат: ${quizScore}/${quizQuestions.length} (${percentage}%)`;
+                    showNotification(message, "info");
+                } else {
+                    message = `Можна краще! Повторіть матеріал. Результат: ${quizScore}/${quizQuestions.length} (${percentage}%)`;
+                    showNotification(message, "error");
+                }
+                
+                // Скидання вікторини
+                currentQuestionIndex = 0;
+                quizScore = 0;
+            }
+            
+            loadQuestion();
+        }
+        
+        // =================== 7. ФУНКЦІЇ ДЛЯ СИМУЛЯЦІЇ ===================
+        function initializeSimulation() {
+            console.log("🎮 Ініціалізація симуляції...");
+            
+            // Оновлення значень слайдерів
+            updateSoldierCount();
+            updateDistance();
+            
+            // Малювання початкового формування
+            drawFormation();
+        }
+        
+        function updateSoldierCount() {
+            const slider = document.getElementById('soldier-slider');
+            const countDisplay = document.getElementById('soldier-count');
+            
+            if (slider && countDisplay) {
+                countDisplay.textContent = slider.value;
+                drawFormation();
+            }
+        }
+        
+        function updateDistance() {
+            const slider = document.getElementById('distance-slider');
+            const distanceDisplay = document.getElementById('distance');
+            
+            if (slider && distanceDisplay) {
+                distanceDisplay.textContent = slider.value;
+            }
+        }
+        
+        function calculateEffectiveness() {
+            const soldierCount = parseInt(document.getElementById('soldier-slider').value);
+            const distance = parseInt(document.getElementById('distance-slider').value);
+            
+            // Проста модель розрахунку ефективності
+            let baseEffectiveness;
+            
+            if (distance <= 50) {
+                baseEffectiveness = 95; // Оптимальна дистанція
+            } else if (distance <= 100) {
+                baseEffectiveness = 70; // Хороша дистанція
+            } else {
+                baseEffectiveness = 30; // Погана дистанція
+            }
+            
+            // Модифікатор за кількістю солдатів
+            let soldierModifier;
+            if (soldierCount < 50) {
+                soldierModifier = 0.7; // Замало солдатів
+            } else if (soldierCount <= 150) {
+                soldierModifier = 1.0; // Оптимальна кількість
+            } else {
+                soldierModifier = 0.8; // Забагато солдатів
+            }
+            
+            // Фінальна ефективність
+            const effectiveness = Math.round(baseEffectiveness * soldierModifier);
+            
+            // Генерація рекомендацій
+            const recommendations = [];
+            
+            if (distance > 100) {
+                recommendations.push("Дистанція занадто велика. Зменшіть відстань або використовуйте артилерію.");
+            }
+            
+            if (soldierCount < 50) {
+                recommendations.push("Недостатня кількість солдатів. Дочекайтеся підкріплення.");
+            } else if (soldierCount > 150) {
+                recommendations.push("Надмірна кількість солдатів. Розділіть стрій на дві лінії.");
+            }
+            
+            if (distance <= 50 && soldierCount >= 50 && soldierCount <= 150) {
+                recommendations.push("Ідеальні умови для лінійної тактики!");
+            }
+            
+            // Відображення результатів
+            const resultElement = document.getElementById('simulation-result');
+            if (resultElement) {
+                let effectivenessColor;
+                if (effectiveness >= 70) effectivenessColor = '#27ae60';
+                else if (effectiveness >= 40) effectivenessColor = '#f39c12';
+                else effectivenessColor = '#e74c3c';
+                
+                let recommendationsHTML = '';
+                if (recommendations.length > 0) {
+                    recommendationsHTML = `
+                        <h4>Рекомендації:</h4>
+                        <ul>
+                            ${recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                        </ul>
+                    `;
+                }
+                
+                resultElement.innerHTML = `
+                    <h3>Результати симуляції:</h3>
+                    <p><strong>Кількість солдатів:</strong> ${soldierCount}</p>
+                    <p><strong>Дистанція:</strong> ${distance} метрів</p>
+                    <p><strong>Ефективність лінійного строю:</strong> 
+                        <span style="color: ${effectivenessColor}; font-weight: bold; font-size: 1.2em;">
+                            ${effectiveness}%
+                        </span>
+                    </p>
+                    ${recommendationsHTML}
+                    <p style="margin-top: 10px; font-style: italic; font-size: 0.9em;">
+                        <strong>Примітка:</strong> Це спрощена модель для демонстрації. У реальності ефективність залежить від багатьох факторів.
+                    </p>
+                `;
+            }
+            
+            console.log(`Симуляція: ${soldierCount} солдатів, ${distance}м, ефективність: ${effectiveness}%`);
+            showNotification(`Ефективність розрахована: ${effectiveness}%`, "info");
+        }
+        
+        function drawFormation() {
+            const canvas = document.getElementById('formation-canvas');
+            if (!canvas) {
+                console.error("Canvas елемент не знайдено!");
+                return;
+            }
+            
+            const ctx = canvas.getContext('2d');
+            const soldierCount = parseInt(document.getElementById('soldier-slider').value);
+            
+            // Очищення canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Фон
+            ctx.fillStyle = '#f8f9fa';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Земля
+            ctx.fillStyle = '#8b4513';
+            ctx.fillRect(0, canvas.height - 50, canvas.width, 50);
+            
+            // Лінія фронту
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(50, canvas.height - 100);
+            ctx.lineTo(canvas.width - 50, canvas.height - 100);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Підписи
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = '14px Arial';
+            ctx.fillText('Союзні війська', 10, 30);
+            ctx.fillText('Лінійний стрій', canvas.width / 2 - 40, canvas.height - 110);
+            ctx.fillText('Ворожі війська', canvas.width - 100, 30);
+            
+            // Малювання солдатів
+            const spacing = (canvas.width - 200) / (soldierCount + 1);
+            
+            for (let i = 1; i <= soldierCount; i++) {
+                const x = 100 + spacing * i;
+                const y = canvas.height - 120;
+                
+                // Тіло солдата
+                ctx.fillStyle = '#2c3e50';
+                ctx.beginPath();
+                ctx.arc(x, y, 8, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Голова
+                ctx.fillStyle = '#f1c40f';
+                ctx.beginPath();
+                ctx.arc(x, y - 10, 5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Мушкет
+                ctx.strokeStyle = '#7f8c8d';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + 20, y - 5);
+                ctx.stroke();
+                
+                // Багнет
+                ctx.strokeStyle = '#e74c3c';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(x + 20, y - 5);
+                ctx.lineTo(x + 30, y - 8);
+                ctx.stroke();
+            }
+            
+            // Ворожі війська (спрощено)
+            ctx.fillStyle = 'rgba(231, 76, 60, 0.3)';
+            ctx.fillRect(canvas.width - 150, canvas.height - 150, 100, 50);
+            ctx.fillStyle = '#e74c3c';
+            ctx.font = '12px Arial';
+            ctx.fillText('Ворог', canvas.width - 130, canvas.height - 130);
+            
+            console.log(`Намальовано формування з ${soldierCount} солдатами`);
+        }
+        
+        // =================== 8. ДОДАТКОВІ ФУНКЦІЇ ===================
+        function showNotification(message, type = 'info') {
+            // Створення елемента сповіщення
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.padding = '15px';
+            notification.style.borderRadius = '5px';
+            notification.style.zIndex = '1000';
+            notification.style.maxWidth = '300px';
+            notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            notification.style.animation = 'fadeIn 0.5s ease';
+            
+            // Визначення кольору за типом
+            if (type === 'success') {
+                notification.style.backgroundColor = '#d4edda';
+                notification.style.color = '#155724';
+                notification.style.border = '1px solid #c3e6cb';
+            } else if (type === 'error') {
+                notification.style.backgroundColor = '#f8d7da';
+                notification.style.color = '#721c24';
+                notification.style.border = '1px solid #f5c6cb';
+            } else {
+                notification.style.backgroundColor = '#d1ecf1';
+                notification.style.color = '#0c5460';
+                notification.style.border = '1px solid #bee5eb';
+            }
+            
+            // Додавання на сторінку
+            document.body.appendChild(notification);
+            
+            // Автоматичне видалення через 4 секунди
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.5s ease';
+                
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 500);
+            }, 4000);
+            
+            console.log(`Сповіщення: ${message} (${type})`);
+        }
+        
+        function setupEventListeners() {
+            console.log("🔗 Налаштування обробників подій...");
+            
+            // Кнопки для шкали часу
+            const expandBtn = document.getElementById('expandAll');
+            const collapseBtn = document.getElementById('collapseAll');
+            const highlightBtn = document.getElementById('highlightImportant');
+            const sortBtn = document.getElementById('sortChronological');
+            
+            if (expandBtn) expandBtn.addEventListener('click', expandAllEvents);
+            if (collapseBtn) collapseBtn.addEventListener('click', collapseAllEvents);
+            if (highlightBtn) highlightBtn.addEventListener('click', highlightImportantEvents);
+            if (sortBtn) sortBtn.addEventListener('click', sortEventsChronological);
+            
+            // Кнопки для вікторини
+            const nextQuestionBtn = document.getElementById('next-question');
+            if (nextQuestionBtn) nextQuestionBtn.addEventListener('click', nextQuestion);
+            
+            // Кнопки для симуляції
+            const calculateBtn = document.getElementById('calculate-effectiveness');
+            if (calculateBtn) calculateBtn.addEventListener('click', calculateEffectiveness);
+            
+            // Слайдери симуляції
+            const soldierSlider = document.getElementById('soldier-slider');
+            const distanceSlider = document.getElementById('distance-slider');
+            
+            if (soldierSlider) soldierSlider.addEventListener('input', updateSoldierCount);
+            if (distanceSlider) distanceSlider.addEventListener('input', updateDistance);
+            
+            // Гарячі клавіші
+            document.addEventListener('keydown', function(event) {
+                // Alt+E - Розгорнути всі
+                if (event.altKey && event.key === 'e') {
+                    event.preventDefault();
+                    expandAllEvents();
+                }
+                
+                // Alt+C - Згорнути всі
+                if (event.altKey && event.key === 'c') {
+                    event.preventDefault();
+                    collapseAllEvents();
+                }
+                
+                // Alt+N - Наступне питання
+                if (event.altKey && event.key === 'n') {
+                    event.preventDefault();
+                    nextQuestion();
+                }
+                
+                // Alt+R - Розрахувати ефективність
+                if (event.altKey && event.key === 'r') {
+                    event.preventDefault();
+                    calculateEffectiveness();
+                }
+            });
+            
+            console.log("✅ Обробники подій налаштовані");
+        }
+        
+        // =================== 9. ЗАПУСК ПРИ ЗАВАНТАЖЕННІ СТОРІНКИ ===================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("📄 DOM повністю завантажений");
+            
+            // Невелика затримка для гарантії, що всі елементи готові
+            setTimeout(initializePage, 100);
+        });
+        
+        // =================== 10. ДЕМОНСТРАЦІЙНІ ФУНКЦІЇ ДЛЯ КОНСОЛІ ===================
+        // Ці функції можна викликати з консолі браузера для тестування
+        window.debug = {
+            showEvents: function() {
+                console.log("Події на шкалі:", timelineEvents);
+                return timelineEvents;
+            },
+            showQuestions: function() {
+                console.log("Питання вікторини:", quizQuestions);
+                return quizQuestions;
+            },
+            resetQuiz: function() {
+                currentQuestionIndex = 0;
+                quizScore = 0;
+                loadQuestion();
+                console.log("Вікторина скинута");
+            },
+            testNotification: function() {
+                showNotification("Тестове сповіщення", "info");
+            }
+        };
+        
+        console.log("=== СКРИПТ ЗАВАНТАЖЕНО ===");
+        console.log("Доступні команди для тестування: debug.showEvents(), debug.showQuestions(), debug.resetQuiz()");
+    </script>
+</body>
+</html>
